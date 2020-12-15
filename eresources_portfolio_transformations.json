@@ -171,7 +171,7 @@
       "mode": "row-based"
     },
     "columnName": "FROM_YEAR",
-    "expression": "grel:if(isBlank(value), if(isBlank(cells[\"from date 1 (full coverage)\"].value), if(isBlank(cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"date range 2\"].value.split(\"–\")[0], cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"from date 1 (full coverage)\"].value), value))",
+    "expression": "grel:if(isBlank(value), if(isBlank(cells[\"from date 1 (full coverage)\"].value), if(isBlank(cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"date range 2\"].value.split(\"–\")[0], cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"from date 1 (full coverage)\"].value), value)) # consolidate normalized coverage start dates into FROM_YEAR column",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
@@ -184,7 +184,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "date range 1 (month, year)",
-    "expression": "grel:if(isBlank(value), cells[\"date range 2\"].value.split(\"–\")[1],  value.split(\"–\")[1])",
+    "expression": "grel:if(isBlank(value), cells[\"date range 2\"].value.split(\"–\")[1],  value.split(\"–\")[1]) # consolidate normalized coverage end dates into TO_YEAR column",
     "onError": "set-to-blank",
     "newColumnName": "TO_YEAR",
     "columnInsertIndex": 19,
@@ -197,7 +197,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:if(isBlank(cells[\"FROM_YEAR\"].value), if(isBlank(cells[\"DATE_OF_PUBLICATION\"].value), value, \"\"), \"\")",
+    "expression": "grel:if(isBlank(cells[\"FROM_YEAR\"].value), if(isBlank(cells[\"DATE_OF_PUBLICATION\"].value), value, \"\"), \"\") # copy text values from Coverage column into new column for any values that did not yield a normalized date range or publication date in previous operations",
     "onError": "set-to-blank",
     "newColumnName": "PUBLIC_NOTES",
     "columnInsertIndex": 14,
