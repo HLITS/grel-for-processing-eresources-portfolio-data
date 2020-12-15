@@ -1,0 +1,237 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Coverage (original values)",
+    "columnInsertIndex": 14,
+    "description": "Create column Coverage (original values) at index 14 based on column Coverage using expression grel:value"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Coverage",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Current data",
+          "Current Data",
+          "current data",
+          "Current data ",
+          "Current  data",
+          " Current data",
+          "Current data                  ",
+          "CURRENT DATA",
+          "current Data"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Current data"
+      }
+    ],
+    "description": "Mass edit cells in column Coverage"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Coverage",
+    "expression": "grel:if(toLowercase(value) == \"current data\", \"\", value) # remove \"Current data\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Coverage using expression grel:if(toLowercase(value) == \"current data\", \"\", value) # remove \"Current data\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Coverage",
+    "expression": "grel:value.replace(\"â€“\", \"–\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Coverage using expression grel:value.replace(\"â€“\", \"–\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\s\\-\\s.+\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "date range 1 (month, year)",
+    "columnInsertIndex": 14,
+    "description": "Create column date range 1 (month, year) at index 14 based on column Coverage using expression grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\s\\-\\s.+\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "date range 2 (year)",
+          "expression": "value",
+          "columnName": "date range 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "2007–2008",
+                "l": "2007–2008"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\W\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "date range 2",
+    "columnInsertIndex": 14,
+    "description": "Create column date range 2 at index 14 based on column Coverage using expression grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\W\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:toLowercase(value).find(/full coverage begin.+ \\d{4}/)[0].find(/\\d{4}/)[0]",
+    "onError": "set-to-blank",
+    "newColumnName": "from date 1 (full coverage)",
+    "columnInsertIndex": 14,
+    "description": "Create column from date 1 (full coverage) at index 14 based on column Coverage using expression grel:toLowercase(value).find(/full coverage begin.+ \\d{4}/)[0].find(/\\d{4}/)[0]"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:if (value.startsWith(\"Begins\"), if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"), \"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "FROM_YEAR",
+    "columnInsertIndex": 14,
+    "description": "Create column FROM_YEAR at index 14 based on column Coverage using expression grel:if (value.startsWith(\"Begins\"), if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"), \"\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:if(toLowercase(value).contains(\"begin\"), \"\", if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"))",
+    "onError": "set-to-blank",
+    "newColumnName": "DATE_OF_PUBLICATION",
+    "columnInsertIndex": 14,
+    "description": "Create column DATE_OF_PUBLICATION at index 14 based on column Coverage using expression grel:if(toLowercase(value).contains(\"begin\"), \"\", if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"))"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "date range 1 (month, year)",
+    "expression": "grel:if(isBlank(value), cells[\"date range 2\"], value)",
+    "onError": "set-to-blank",
+    "newColumnName": "date range 3 (consolidated)",
+    "columnInsertIndex": 19,
+    "description": "Create column date range 3 (consolidated) at index 19 based on column date range 1 (month, year) using expression grel:if(isBlank(value), cells[\"date range 2\"], value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "FROM_YEAR",
+    "expression": "grel:if(isBlank(value), if(isBlank(cells[\"from date 1 (full coverage)\"].value), if(isBlank(cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"date range 2\"].value.split(\"–\")[0], cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"from date 1 (full coverage)\"].value), value))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column FROM_YEAR using expression grel:if(isBlank(value), if(isBlank(cells[\"from date 1 (full coverage)\"].value), if(isBlank(cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"date range 2\"].value.split(\"–\")[0], cells[\"date range 1 (month, year)\"].value.split(\"–\")[0]), cells[\"from date 1 (full coverage)\"].value), value))"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "date range 1 (month, year)",
+    "expression": "grel:if(isBlank(value), cells[\"date range 2\"].value.split(\"–\")[1],  value.split(\"–\")[1])",
+    "onError": "set-to-blank",
+    "newColumnName": "TO_YEAR",
+    "columnInsertIndex": 19,
+    "description": "Create column TO_YEAR at index 19 based on column date range 1 (month, year) using expression grel:if(isBlank(value), cells[\"date range 2\"].value.split(\"–\")[1],  value.split(\"–\")[1])"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage",
+    "expression": "grel:if(isBlank(cells[\"FROM_YEAR\"].value), if(isBlank(cells[\"DATE_OF_PUBLICATION\"].value), value, \"\"), \"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "PUBLIC_NOTES",
+    "columnInsertIndex": 14,
+    "description": "Create column PUBLIC_NOTES at index 14 based on column Coverage using expression grel:if(isBlank(cells[\"FROM_YEAR\"].value), if(isBlank(cells[\"DATE_OF_PUBLICATION\"].value), value, \"\"), \"\")"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "from date 1 (full coverage)",
+    "description": "Remove column from date 1 (full coverage)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "date range 2",
+    "description": "Remove column date range 2"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "date range 1 (month, year)",
+    "description": "Remove column date range 1 (month, year)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "date range 3 (consolidated)",
+    "description": "Remove column date range 3 (consolidated)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Coverage",
+    "description": "Remove column Coverage"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Coverage (original values)",
+    "newColumnName": "Coverage",
+    "description": "Rename column Coverage (original values) to Coverage"
+  }
+]
