@@ -6,7 +6,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:value",
+    "expression": "grel:value # make a copy of Coverage column and name it Coverage (original values) so that original values are retained for comparison",
     "onError": "set-to-blank",
     "newColumnName": "Coverage (original values)",
     "columnInsertIndex": 14,
@@ -60,7 +60,7 @@
       "mode": "row-based"
     },
     "columnName": "Coverage",
-    "expression": "grel:value.replace(\"â€“\", \"–\")",
+    "expression": "grel:value.replace(\"â€“\", \"–\") # remove garbled unicode and replace with en dashes",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
@@ -73,7 +73,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\s\\-\\s.+\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\")",
+    "expression": "grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\s\\-\\s.+\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\") # find values that include date ranges in format MM/YYYY - MM/YYYY and transform them into format YYYY–YYYY in a new column",
     "onError": "set-to-blank",
     "newColumnName": "date range 1 (month, year)",
     "columnInsertIndex": 14,
@@ -106,7 +106,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\W\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\")",
+    "expression": "grel:if(value.find(/\\d{4}/).length() == 2, if(value.find(/\\d{4}\\W\\d{4}/).length() == 1, value.find(/\\d{4}/).join(\"–\"), \"\"), \"\") # find date ranges in format YYYY – YYYY or similar and transform them into format YYYY–YYYY in a new column",
     "onError": "set-to-blank",
     "newColumnName": "date range 2",
     "columnInsertIndex": 14,
@@ -119,7 +119,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:toLowercase(value).find(/full coverage begin.+ \\d{4}/)[0].find(/\\d{4}/)[0]",
+    "expression": "grel:toLowercase(value).find(/full coverage begin.+ \\d{4}/)[0].find(/\\d{4}/)[0] # find coverage start dates and transform them to format YYYY in a new column",
     "onError": "set-to-blank",
     "newColumnName": "from date 1 (full coverage)",
     "columnInsertIndex": 14,
@@ -132,7 +132,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:if (value.startsWith(\"Begins\"), if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"), \"\")",
+    "expression": "grel:if (value.startsWith(\"Begins\"), if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"), \"\") # find more coverage start dates and transform them into format YYYY in a new column",
     "onError": "set-to-blank",
     "newColumnName": "FROM_YEAR",
     "columnInsertIndex": 14,
@@ -145,7 +145,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "Coverage",
-    "expression": "grel:if(toLowercase(value).contains(\"begin\"), \"\", if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\"))",
+    "expression": "grel:if(toLowercase(value).contains(\"begin\"), \"\", if(value.find(/\\d{4}/).length() == 1, value.find(/\\d{4}/)[0], \"\")) # find single-year publication dates and transform them into format YYYY in a new column",
     "onError": "set-to-blank",
     "newColumnName": "DATE_OF_PUBLICATION",
     "columnInsertIndex": 14,
@@ -158,7 +158,7 @@
       "mode": "row-based"
     },
     "baseColumnName": "date range 1 (month, year)",
-    "expression": "grel:if(isBlank(value), cells[\"date range 2\"], value)",
+    "expression": "grel:if(isBlank(value), cells[\"date range 2\"], value) # combine normalized date range columns into a single new column",
     "onError": "set-to-blank",
     "newColumnName": "date range 3 (consolidated)",
     "columnInsertIndex": 19,
